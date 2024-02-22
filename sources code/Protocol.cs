@@ -1,11 +1,8 @@
-/* LOIC - Low Orbit Ion Cannon
- * Released to the public domain
- * Enjoy getting v&, kids.
- */
+
 
 using System;
 
-namespace LOIC {
+namespace unmdosx {
 
 	/// <summary>
 	/// Protocol.
@@ -35,7 +32,7 @@ namespace LOIC {
 		/// <summary>
 		/// XXX: Must be documented.
 		/// </summary>
-		slowLOIC = 4,
+		slowunmdosx = 4,
 
 		/// <summary>
 		/// XXX: Must be documented.
