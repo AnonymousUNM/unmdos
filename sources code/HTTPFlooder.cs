@@ -1,7 +1,4 @@
-/* LOIC - Low Orbit Ion Cannon
- * Released to the public domain
- * Enjoy getting v&, kids.
- */
+
 
 using System;
 using System.ComponentModel;
@@ -9,7 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Windows.Forms;
 
-namespace LOIC
+namespace unmdosx
 {
 	public class HTTPFlooder : cHLDos
 	{
