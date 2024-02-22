@@ -1,4 +1,4 @@
-/* LOIC - Low Orbit Ion Cannon
+/* unmdosx - Low Orbit Ion Cannon
  * Released to the public domain
  * Enjoy getting v&, kids.
  */
@@ -6,7 +6,7 @@
 using System;
 using System.Text;
 
-namespace LOIC
+namespace unmdosx
 {
 	public static class Functions
 	{
