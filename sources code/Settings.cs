@@ -1,13 +1,10 @@
-/* LOIC - Low Orbit Ion Cannon
- * Released to the public domain
- * Enjoy getting v&, kids.
- */
+
 
 using System;
 using System.Collections.Specialized;
 using System.Configuration;
 
-namespace LOIC
+namespace unmdosx
 {
 	public class Settings
 	{
