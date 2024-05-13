@@ -1,6 +1,7 @@
 UNMDOS Aplikasi cyber attack denial of services untuk server di Universitas Negeri Makassar, sebagai bentuk protes terhadap kebijakan kampus. berbasis LOIC dari J. Oliveira https://github.com/NewEraCracker/LOIC
 
 Changelog :
+
 v2 (052024)
 - Cloudflare bypass >:)
 - FortiGuard bypass >:)
